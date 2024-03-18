@@ -66,6 +66,10 @@ public class LocalizationManager : MonoBehaviour
         AddID("Volume Effects", "Volume Effects", "Volumen Effekte");
         AddID("Graphics Quality", "Graphics Quality", "Graphik Qualität");
         AddID("Language", "Language", "Sprache");
+
+        // Shop Menu
+        AddID("Choose", "Choose", "Wählen");
+        AddID("Buy", "Buy", "Kaufen");
     }
 
     private void AddID(string id, string textEnglish, string textGerman)
