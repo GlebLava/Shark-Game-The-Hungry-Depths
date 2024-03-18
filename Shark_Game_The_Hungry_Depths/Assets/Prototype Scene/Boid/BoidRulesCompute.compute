@@ -1,0 +1,113 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CSMain
+
+// inputs
+RWStructuredBuffer<float3> positions;
+RWStructuredBuffer<float3> velocities;
+
+// outputs
+RWStructuredBuffer<float3> avoidance;
+RWStructuredBuffer<float3> velocityMatching;
+RWStructuredBuffer<float3> flockCentring;
+
+int startingIndexOffset;
+int amountOfBoids;
+
+float radiusAvoidanceSquared;
+float radiusVelocitySquared;
+float radiusCentringSquared;
+
+
+void computeAvoidance(int index)
+{    
+    float3 oppositeDir = float3(0, 0, 0);
+    float3 myPos = positions[index];
+    
+    float count = 0;
+    for (int i = 0; i < amountOfBoids; i++)
+    {
+        float3 posOther = positions[i];
+
+        float3 dir = myPos - posOther;
+        float distSqr = dot(dir, dir);
+        
+        if (distSqr <= radiusAvoidanceSquared)
+        {
+            float distanceWeight = 1 - (distSqr / radiusAvoidanceSquared);
+            oppositeDir += dir * distanceWeight;
+            count++;
+        }
+    }
+
+    if (count > 0 && length(oppositeDir) != 0)
+    {
+        oppositeDir /= count;
+        oppositeDir = normalize(oppositeDir);
+    }
+
+    avoidance[index] = oppositeDir;
+}
+
+void computeVelocityMatching(int index)
+{
+    float3 averageVelocity = float3(0, 0, 0);
+    float3 myPos = positions[index];
+    int count = 0;
+    for (int i = 0; i < amountOfBoids; i++)
+    {
+        float3 posOther = positions[i];
+
+        float3 dir = myPos - posOther;
+        float distSqr = dot(dir, dir);
+        
+        if (distSqr <= radiusVelocitySquared)
+        {
+            averageVelocity += velocities[i];
+            count++;
+        }
+    }
+    
+    if (count > 0)
+    {
+        averageVelocity /= count;
+    }
+    
+    velocityMatching[index] = averageVelocity;
+}
+
+void computeFlockCentring(int index)
+{
+    float3 myPos = positions[index];
+    float3 centerPos = myPos;
+    int count = 1;
+    for (int i = 0; i < amountOfBoids; i++)
+    {
+        float3 posOther = positions[i];
+
+        float3 dir = myPos - posOther;
+        float distSqr = dot(dir, dir);
+        
+        if (distSqr <= radiusCentringSquared)
+        {
+            centerPos += positions[i];
+            count++;
+        }
+    }
+    
+    centerPos /= count;
+    flockCentring[index] = centerPos - myPos;
+}
+
+
+[numthreads(8, 1, 1)]
+void CSMain(uint3 id : SV_DispatchThreadID)
+{
+    if (id.x + startingIndexOffset > uint(amountOfBoids))
+    {
+        return;
+    }
+    
+    computeAvoidance(id.x + startingIndexOffset);
+    computeVelocityMatching(id.x + startingIndexOffset);
+    computeFlockCentring(id.x + startingIndexOffset);
+}
