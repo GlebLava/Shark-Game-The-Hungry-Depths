@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class TitleScreenAquarium : MonoBehaviour
 {
-    float rotatingX;
-
     List<GameObject> spawnedSharks = new List<GameObject>();
 
     private void Awake()

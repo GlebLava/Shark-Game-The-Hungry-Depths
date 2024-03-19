@@ -26,4 +26,10 @@ public static class SignalBus
         OnNewSharkBought?.Invoke(s);
     }
 
+    public static event NotifyString OnNewGadgetBought;
+    public static void OnNewGadgetBoughtInvoke(string s)
+    {
+        OnNewGadgetBought?.Invoke(s);
+    }
+
 }

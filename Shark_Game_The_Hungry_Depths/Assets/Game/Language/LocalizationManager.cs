@@ -70,6 +70,9 @@ public class LocalizationManager : MonoBehaviour
         // Shop Menu
         AddID("Choose", "Choose", "Wählen");
         AddID("Buy", "Buy", "Kaufen");
+        AddID("Owned:", "Owned:", "In Besitz:");
+
+
     }
 
     private void AddID(string id, string textEnglish, string textGerman)

@@ -7,6 +7,7 @@ public class TitleScreen : MonoBehaviour
 {
     public GameObject titleScreen;
     public GameObject optionsScreen;
+    public GameObject gadgetShopScreen;
     public GameObject sharkShopScreen;
 
     public GameObject returnToTitleScreenButton;
@@ -43,6 +44,13 @@ public class TitleScreen : MonoBehaviour
         FlyCamTo(cameraLookAtAquariumPos);
     }
 
+    public void ClickGadgetShop()
+    {
+        AllDisable();
+        gadgetShopScreen.SetActive(true);
+        returnToTitleScreenButton.SetActive(true);
+    }
+
     public void ClickSharkShop()
     {
         AllDisable();
@@ -55,6 +63,7 @@ public class TitleScreen : MonoBehaviour
     {
         titleScreen.SetActive(false);
         optionsScreen.SetActive(false);
+        gadgetShopScreen.SetActive(false);
         sharkShopScreen.SetActive(false);
     }
 

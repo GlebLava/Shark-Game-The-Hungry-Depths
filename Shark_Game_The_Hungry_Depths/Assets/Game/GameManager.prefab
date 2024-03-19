@@ -49,10 +49,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4d74c627335c1984088e37f0e49beb73, type: 2}
   - {fileID: 11400000, guid: 5f841f863f43f9d4ead81226a530345c, type: 2}
   - {fileID: 11400000, guid: c216d417dc0e54b4887add5330dd0fa2, type: 2}
+  gadgetScriptableObjects:
+  - {fileID: 11400000, guid: a7453dc3c8b3da14c8befd6615b733d6, type: 2}
+  - {fileID: 11400000, guid: d26930a5e74c65c41a979e53a675b122, type: 2}
   gameData:
     currentShark: 
     coinsOwned: 100
     sharksOwned: []
+    gadgetsOwned: []
 --- !u!114 &1255160439284340518
 MonoBehaviour:
   m_ObjectHideFlags: 0

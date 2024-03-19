@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     public List<SharkSO> sharkScriptableObjects;
+    public List<GadgetSO> gadgetScriptableObjects;
 
     public GameData gameData;
 
@@ -47,6 +48,21 @@ public class GameManager : MonoBehaviour
                 gameData.sharksOwned.Add(s);
             SaveSystem.SaveGameData(gameData);
         };
+
+        SignalBus.OnNewGadgetBought += (s) =>
+        {
+            int index = gameData.gadgetsOwned.FindIndex((gadget) => gadget.name == s);
+            if (index == -1)
+            {
+                gameData.gadgetsOwned.Add(new GadgetData() { amountOwned = 1, name = s });
+            }
+            else
+            {
+                gameData.gadgetsOwned[index].amountOwned++;
+            }
+            SaveSystem.SaveGameData(gameData);
+        };
+
     }
 
     private void Start()
@@ -94,11 +110,20 @@ public class GameData
 
     [SerializeField]
     public List<string> sharksOwned = new List<string>();
+    [SerializeField]
+    public List<GadgetData> gadgetsOwned = new List<GadgetData>();
 
     public GameData()
     {
         // Put all stuff here that a new player owns from the start
         sharksOwned.Add("DefaultShark"); 
     }
+}
 
+[System.Serializable]
+public class GadgetData
+{
+    // As in name of the scriptable object NOT the title
+    public string name = "";
+    public int amountOwned = 0;
 }
