@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AquariumBuilder : MonoBehaviour
+public class AquariumBuilderPrototype : MonoBehaviour
 {
     public GameObject invisCube;
     public GameObject cubeAsEdgePrefab;

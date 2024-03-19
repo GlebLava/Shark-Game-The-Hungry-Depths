@@ -40,6 +40,13 @@ public class GameManager : MonoBehaviour
             // We do not save here. Only save coins
             // on other specific occasions
         };
+
+        SignalBus.OnNewSharkBought += (s) =>
+        {
+            if (!gameData.sharksOwned.Contains(s))
+                gameData.sharksOwned.Add(s);
+            SaveSystem.SaveGameData(gameData);
+        };
     }
 
     private void Start()
@@ -47,6 +54,9 @@ public class GameManager : MonoBehaviour
         SignalBus.OnSharkPlayerChosenInvoke(gameData.currentShark);
         SignalBus.OnCoinsAmountChangedInvoke(gameData.coinsOwned);
     }
+
+
+#if UNITY_EDITOR
 
     [MenuItem("GameManager/Save Game")]
     static void EditorSaveGame()
@@ -71,6 +81,8 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log(Application.persistentDataPath);
     }
+#endif
+
 }
 
 

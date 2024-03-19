@@ -9,7 +9,7 @@ public class BoidManager : MonoBehaviour
     [Header("Boid Preconfig")]
     public LayerMask boidLayer;
     public GameObject player;
-    public AquariumBuilder aquariumBuilder;
+    public AquariumBuilderPrototype aquariumBuilder;
     public BoidManagerComputer boidManagerComputer;
     public List<Collider> staticColliders;
 

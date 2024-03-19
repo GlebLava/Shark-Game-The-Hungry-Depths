@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 496631523774488069}
   - component: {fileID: 3708906669595292823}
+  - component: {fileID: 1255160439284340518}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -52,3 +53,15 @@ MonoBehaviour:
     currentShark: 
     coinsOwned: 100
     sharksOwned: []
+--- !u!114 &1255160439284340518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6775517863230292087}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5105f42fc3281c4c8fec52781ce4d1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

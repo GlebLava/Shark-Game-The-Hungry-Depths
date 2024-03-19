@@ -20,4 +20,10 @@ public static class SignalBus
         OnCoinsAmountChanged?.Invoke(amount);
     }
 
+    public static event NotifyString OnNewSharkBought;
+    public static void OnNewSharkBoughtInvoke(string s)
+    {
+        OnNewSharkBought?.Invoke(s);
+    }
+
 }

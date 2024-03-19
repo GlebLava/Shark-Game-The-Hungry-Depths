@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class SharkShop : MonoBehaviour
 {
@@ -16,6 +17,10 @@ public class SharkShop : MonoBehaviour
 
     public GameObject chooseButton;
     public GameObject buyButton;
+
+    [Header("Texts")]
+    public GameObject sharkPriceDisplay;
+    public TMP_Text sharkPrice;
 
     [Header("Effects")]
     public AnimationCurve swapCurve;
@@ -74,6 +79,13 @@ public class SharkShop : MonoBehaviour
         SignalBus.OnSharkPlayerChosenInvoke(GameManager.instance.sharkScriptableObjects[focusIndex].name);
     }
 
+    public void ClickBuy()
+    {
+        SignalBus.OnNewSharkBoughtInvoke(GameManager.instance.sharkScriptableObjects[focusIndex].name);
+        SignalBus.OnCoinsAmountChangedInvoke(GameManager.instance.gameData.coinsOwned - GameManager.instance.sharkScriptableObjects[focusIndex].cost);
+        DisableRightButtonBuyChoose();
+    }
+
     private void DisableRightButtonUpDown()
     {
         upButton.SetActive(true);
@@ -88,10 +100,14 @@ public class SharkShop : MonoBehaviour
         if (GameManager.instance.gameData.sharksOwned.Contains(GameManager.instance.sharkScriptableObjects[focusIndex].name))
         {
             buyButton.SetActive(false);
+            sharkPriceDisplay.SetActive(false);
             chooseButton.SetActive(true);
         }
         else
         {
+            sharkPriceDisplay.SetActive(true);
+            sharkPrice.text = GameManager.instance.sharkScriptableObjects[focusIndex].cost.ToString() + " x";
+
             buyButton.SetActive(true);
             chooseButton.SetActive(false);
             buyButton.GetComponent<Button>().interactable = GameManager.instance.sharkScriptableObjects[focusIndex].cost <= GameManager.instance.gameData.coinsOwned;
