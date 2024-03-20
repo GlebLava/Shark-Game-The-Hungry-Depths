@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 
     public List<SharkSO> sharkScriptableObjects;
     public List<GadgetSO> gadgetScriptableObjects;
+    public List<LevelSelectItemSO> levelSelectItemScriptableObjects;
 
     public GameData gameData;
 
@@ -63,6 +64,18 @@ public class GameManager : MonoBehaviour
             SaveSystem.SaveGameData(gameData);
         };
 
+        SignalBus.OnLevelSelected += (s) =>
+        {
+            gameData.selectedLevel = s;
+        };
+
+        SignalBus.OnNewLevelBought += (s) =>
+        {
+            if (!gameData.levelsOwned.Contains(s))
+                gameData.levelsOwned.Add(s);
+            SaveSystem.SaveGameData(gameData);
+        };
+
     }
 
     private void Start()
@@ -90,6 +103,13 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log(shark);
         }
+
+        foreach (var level in instance.gameData.levelsOwned)
+        {
+            Debug.Log(level);
+        }
+
+        Debug.Log("Selected level: " + instance.gameData.selectedLevel);
     }
 
     [MenuItem("GameManager/Print Game Data Path")]
@@ -106,17 +126,21 @@ public class GameManager : MonoBehaviour
 public class GameData
 {
     public string currentShark = "DefaultShark";
+    public string selectedLevel = "DefaultLevel";
     public int coinsOwned = 100;
 
     [SerializeField]
     public List<string> sharksOwned = new List<string>();
     [SerializeField]
     public List<GadgetData> gadgetsOwned = new List<GadgetData>();
+    [SerializeField]
+    public List<string> levelsOwned = new List<string>();
 
     public GameData()
     {
         // Put all stuff here that a new player owns from the start
-        sharksOwned.Add("DefaultShark"); 
+        sharksOwned.Add("DefaultShark");
+        levelsOwned.Add("DefaultLevel");
     }
 }
 

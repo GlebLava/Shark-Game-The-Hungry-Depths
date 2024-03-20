@@ -52,11 +52,23 @@ MonoBehaviour:
   gadgetScriptableObjects:
   - {fileID: 11400000, guid: a7453dc3c8b3da14c8befd6615b733d6, type: 2}
   - {fileID: 11400000, guid: d26930a5e74c65c41a979e53a675b122, type: 2}
+  levelSelectItemScriptableObjects:
+  - {fileID: 11400000, guid: 0bbfc76f8e51b6f4688a55143feeb362, type: 2}
+  - {fileID: 11400000, guid: 4eb3b4c07b4c3c64d89373ab5e9f98bd, type: 2}
+  - {fileID: 11400000, guid: 6c18decafc4bbae4ea2b1fc984648120, type: 2}
+  - {fileID: 11400000, guid: 443a55fb3e99c2544afe24335ba91ce4, type: 2}
+  - {fileID: 11400000, guid: b73c102240d79ed4cb97f48eba2209e9, type: 2}
+  - {fileID: 11400000, guid: d30cb9990c684ec4ab17e6253249ce3b, type: 2}
+  - {fileID: 11400000, guid: ab3f6bf186d137f4892378a7e7f04551, type: 2}
+  - {fileID: 11400000, guid: 1271cbf188e1a9b48a9b9b2659528287, type: 2}
   gameData:
     currentShark: 
+    selectedLevel: DefaultLevel
     coinsOwned: 100
     sharksOwned: []
     gadgetsOwned: []
+    levelsOwned:
+    - DefaultLevel
 --- !u!114 &1255160439284340518
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -60,6 +60,9 @@ public class LocalizationManager : MonoBehaviour
         AddID("Shark Shop", "Shark Shop", "Shark Shop");
         AddID("Gadget Shop", "Gadget Shop", "Gadget Shop");
 
+        // Level Select
+        AddID("Depths:", "Depths:", "Tiefen:");
+
         // Options Menu
         AddID("Volume Music", "Volume Music", "Volumen Musik");
         AddID("Volume Effects", "Volume Effects", "Volumen Effekte");

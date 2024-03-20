@@ -32,4 +32,16 @@ public static class SignalBus
         OnNewGadgetBought?.Invoke(s);
     }
 
+    public static event NotifyString OnLevelSelected;
+    public static void OnLevelSelectedInvoke(string s)
+    {
+        OnLevelSelected?.Invoke(s);
+    }
+
+    public static event NotifyString OnNewLevelBought;
+    public static void OnNewLevelBoughtInvoke(string s)
+    {
+        OnNewLevelBought?.Invoke(s);
+    }
+
 }
