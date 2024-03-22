@@ -86,13 +86,48 @@ public class GameManager : MonoBehaviour
             gameData.playerDeaths++;
         };
 
+        SceneManager.activeSceneChanged += (s0, s1) => InvokeAtStart();
+    }
+
+    public void SwitchToAfterDeathScreen(int coinsCollectedThisRun)
+    {
+        // Need to do this to ensure that the scene is fully loaded
+        // for whatever reason SceneManager.LoadScene does not wait until
+        // the scene is loaded fully?
+        StartCoroutine(SwitchToAfterDeathScreenCo(coinsCollectedThisRun));
+    }
+
+    public IEnumerator SwitchToAfterDeathScreenCo(int coinsCollectedThisRun)
+    {
+        // Need to do this to ensure that the scene is fully loaded
+        // for whatever reason SceneManager.LoadScene does not wait until
+        // the scene is loaded fully?
+        var asyncLoadLevel = SceneManager.LoadSceneAsync("AfterGameScene", LoadSceneMode.Single);
+        while (!asyncLoadLevel.isDone)
+        {   
+            yield return null;
+        }
+
+        var afterGameScene = FindObjectOfType<AfterGameScreen>();
+        afterGameScene.Setup(coinsCollectedThisRun);
+
+        gameData.coinsOwned += coinsCollectedThisRun;
+        SaveSystem.SaveGameData(gameData);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <param name="coinsToAddAdditionaly">All the coins won additionaly during the after death screen</param>
+    public void ReturnToEntryScene(int coinsToAddAdditionaly)
+    {
+        gameData.coinsOwned += coinsToAddAdditionaly;
+        SaveSystem.SaveGameData(gameData);
+        SceneManager.LoadScene("EntryScene");
     }
 
     private void Start()
     {
-        SignalBus.OnSharkPlayerChosenInvoke(gameData.currentShark);
-        SignalBus.OnCoinsAmountChangedInvoke(gameData.coinsOwned);
-        SignalBus.OnLevelSelectedInvoke(gameData.selectedLevel);
+        InvokeAtStart();
     }
 
     public void PlayGamePressed()
@@ -112,9 +147,12 @@ public class GameManager : MonoBehaviour
         SceneManager.UnloadSceneAsync("LoadingScene"); // Idk the serialized UnloadScene is deprecated
     }
 
-
-
-
+    private void InvokeAtStart()
+    {
+        SignalBus.OnSharkPlayerChosenInvoke(gameData.currentShark);
+        SignalBus.OnCoinsAmountChangedInvoke(gameData.coinsOwned);
+        SignalBus.OnLevelSelectedInvoke(gameData.selectedLevel);
+    }
 
 #if UNITY_EDITOR
 

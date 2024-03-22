@@ -85,6 +85,11 @@ public class LocalizationManager : MonoBehaviour
         AddID("Game Over", "Game Over", "Game Over");
         AddID("Continue", "Continue", "Fortfahren");
         AddID("Revive", "Revive", "Wiederbeleben");
+
+        // After Game Screen
+        AddID("Coins collected:", "Coins collected:", "Münzen eingesammelt:");
+        AddID("Coins total:", "Coins total:", "Münzen gesamt:");
+        AddID("Back to main menu", "Back to main menu", "Zurück zum Hauptmenü");
     }
 
     private void AddID(string id, string textEnglish, string textGerman)

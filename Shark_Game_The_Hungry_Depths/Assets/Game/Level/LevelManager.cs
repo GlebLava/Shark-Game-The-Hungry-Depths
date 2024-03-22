@@ -55,12 +55,14 @@ public class LevelManager : MonoBehaviour
 
         SignalBus.OnPauseGame += PauseGame;
         SignalBus.OnUnpauseGame += UnpauseGame;
+        SignalBus.OnPlayerDeathContinue += OnPlayerDeathContinue;
     }
 
     private void OnDestroy()
     {
         SignalBus.OnPauseGame -= PauseGame;
         SignalBus.OnUnpauseGame -= UnpauseGame;
+        SignalBus.OnPlayerDeathContinue -= OnPlayerDeathContinue;
     }
 
     private void LoadTheLevel()
@@ -91,5 +93,15 @@ public class LevelManager : MonoBehaviour
     private void UnpauseGame()
     {
         Time.timeScale = 1;
+    }
+
+    /// <summary>
+    /// This is here because I want it to make the LevelManager's responsibility
+    /// to pass all relevant data to the GameManager once the level is over (which 
+    /// happens when the player decides to press continue after dying)
+    /// </summary>
+    private void OnPlayerDeathContinue()
+    {
+        GameManager.instance.SwitchToAfterDeathScreen(coinsCollectedThisRun);
     }
 }
