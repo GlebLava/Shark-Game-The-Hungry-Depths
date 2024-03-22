@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77ea25f53c1ba2347a998f3fda08b4d1, type: 3}
   m_Name: DefaultShark
   m_EditorClassIdentifier: 
-  sharkModelPrefab: {fileID: 919132149155446097, guid: 48fea8a45746ca543b05af36cb7360cd,
+  sharkModelPrefab: {fileID: 6542559346499421121, guid: 70ccedd07b55e0f478ac01a11c334802,
     type: 3}
   cost: 0
   moveSpeed: 3

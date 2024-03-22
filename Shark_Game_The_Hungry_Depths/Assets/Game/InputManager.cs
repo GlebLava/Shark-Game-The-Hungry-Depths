@@ -59,8 +59,11 @@ public class InputManager : MonoBehaviour
 
 
         // swimmingUp
-        pressingSwimUp = false;
-        pressingSwimUp = touchArea.pointerDown;
+        if (touchArea != null)
+        {
+            pressingSwimUp = false;
+            pressingSwimUp = touchArea.pointerDown;
+        }
 
     }
 }

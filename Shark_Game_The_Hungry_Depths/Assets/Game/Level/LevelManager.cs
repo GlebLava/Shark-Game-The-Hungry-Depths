@@ -66,6 +66,8 @@ public class LevelManager : MonoBehaviour
     private void SpawnPlayer()
     {
         player = new GameObject("Player");
+        player.transform.SetParent(transform); // So it gets added to the right scene
+
         player.transform.position = spawnPoint.transform.position;
         var playerController = player.AddComponent<PlayerController>();
         var rb = player.AddComponent<Rigidbody>();

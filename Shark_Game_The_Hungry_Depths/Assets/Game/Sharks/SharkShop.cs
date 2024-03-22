@@ -27,12 +27,14 @@ public class SharkShop : MonoBehaviour
 
     private int focusIndex = 0;
 
-    private void OnEnable()
+
+    private void Awake()
     {
         for (int i = 0; i < GameManager.instance.sharkScriptableObjects.Count; i++)
         {
             var shark = Instantiate(GameManager.instance.sharkScriptableObjects[i].sharkModelPrefab, sharksHolder.transform);
             shark.transform.position = new Vector3(0, i * DISTANCE_BETWEEN_SHARKS, 0);
+            shark.transform.rotation = Quaternion.Euler(0, 90, 0);
             spawnedSharkDisplays.Add(shark);
 
             if (GameManager.instance.gameData.currentShark == GameManager.instance.sharkScriptableObjects[i].name)
@@ -46,17 +48,6 @@ public class SharkShop : MonoBehaviour
         DisableRightButtonBuyChoose();
         JumpToFocusIndex(0, focusIndex);
     }
-
-    private void OnDisable()
-    {
-        foreach (var shark in spawnedSharkDisplays)
-        {
-            Destroy(shark);
-        }
-
-        spawnedSharkDisplays.Clear();
-    }
-
 
     public void ClickUp()
     {
