@@ -9,4 +9,6 @@ public class LevelSelectItemSO : ScriptableObject
     public int levelPrice;
     public int depthIndex;
     public Sprite levelSprite;
+
+    public SceneField level;
 }

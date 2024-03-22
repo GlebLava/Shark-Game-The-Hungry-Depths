@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -82,7 +83,28 @@ public class GameManager : MonoBehaviour
     {
         SignalBus.OnSharkPlayerChosenInvoke(gameData.currentShark);
         SignalBus.OnCoinsAmountChangedInvoke(gameData.coinsOwned);
+        SignalBus.OnLevelSelectedInvoke(gameData.selectedLevel);
     }
+
+    public void PlayGamePressed()
+    {
+        SignalBus.OnLevelFinishedLoading += OnLevelFinishedLoading;
+        SceneManager.LoadScene("LoadingScene");
+        string sceneName = levelSelectItemScriptableObjects.Find((so) => so.name == gameData.selectedLevel).level.SceneName;
+        AsyncOperation loadingLevelOp = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+    }
+
+    private void OnLevelFinishedLoading()
+    {
+        // We can only unload the loading scene if its not the active scene, so we set the current levels scene as the active scene
+        string sceneName = levelSelectItemScriptableObjects.Find((so) => so.name == gameData.selectedLevel).level.SceneName;
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
+        SignalBus.OnLevelFinishedLoading -= OnLevelFinishedLoading;
+        SceneManager.UnloadSceneAsync("LoadingScene"); // Idk the serialized UnloadScene is deprecated
+    }
+
+
+
 
 
 #if UNITY_EDITOR
@@ -117,6 +139,20 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log(Application.persistentDataPath);
     }
+
+    [MenuItem("GameManager/Check all Level Selects for Errors")]
+    static void CheckLevelSelectsForErrors()
+    {
+        foreach (LevelSelectItemSO item in instance.levelSelectItemScriptableObjects)
+        {
+            Scene scene = SceneManager.GetSceneByName(item.level.SceneName);
+            if (!scene.IsValid())
+            {
+                Debug.LogError($"Invalid scene in scriptable object: \"{item.name}\" with scene name: \"{scene.name}\". The scene is not added in the build settings!");
+            }
+        }
+    }
+
 #endif
 
 }

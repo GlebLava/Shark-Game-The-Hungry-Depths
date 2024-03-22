@@ -16,7 +16,6 @@ public class LevelSelectPreview : MonoBehaviour, IPointerClickHandler
     private void Awake()
     {
         SignalBus.OnLevelSelected += OnLevelSelected;
-        OnLevelSelected(GameManager.instance.gameData.selectedLevel);
     }
 
     void OnLevelSelected(string levelName)

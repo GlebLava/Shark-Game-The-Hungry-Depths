@@ -75,7 +75,11 @@ public class LocalizationManager : MonoBehaviour
         AddID("Buy", "Buy", "Kaufen");
         AddID("Owned:", "Owned:", "In Besitz:");
 
+        // Loading Screen
+        AddID("Loading", "Loading", "Laden");
 
+        // Pause Menu
+        AddID("Return to main menu", "Return to main menu", "Zurück zum Hauptmenü");
     }
 
     private void AddID(string id, string textEnglish, string textGerman)

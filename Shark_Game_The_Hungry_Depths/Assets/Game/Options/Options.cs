@@ -25,7 +25,5 @@ public class Options : MonoBehaviour
                 languageDropdown.value = i;
             }
         }
-
-
     }
 }

@@ -67,6 +67,11 @@ public class TitleScreen : MonoBehaviour
         FlyCamTo(cameraLookAtSharkShopPos);
     }
 
+    public void ClickPlay()
+    {
+        GameManager.instance.PlayGamePressed();
+    }
+
     private void AllDisable()
     {
         titleScreen.SetActive(false);

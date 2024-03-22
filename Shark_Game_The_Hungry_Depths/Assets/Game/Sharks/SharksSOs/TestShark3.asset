@@ -15,3 +15,6 @@ MonoBehaviour:
   sharkModelPrefab: {fileID: 876115460935072612, guid: 35f763e4666d4e346b560660fde186a0,
     type: 3}
   cost: 200
+  moveSpeed: 5
+  camDistance: 7
+  camYOffset: 2

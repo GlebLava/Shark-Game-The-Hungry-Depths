@@ -14,3 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sharkModelPrefab: {fileID: 919132149155446097, guid: 48fea8a45746ca543b05af36cb7360cd,
     type: 3}
+  cost: 0
+  moveSpeed: 3
+  camDistance: 7
+  camYOffset: 2
