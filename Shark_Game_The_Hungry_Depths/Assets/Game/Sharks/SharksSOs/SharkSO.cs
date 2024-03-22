@@ -10,4 +10,5 @@ public class SharkSO : ScriptableObject
     public float moveSpeed;
     public float camDistance;
     public float camYOffset;
+    public float maxHealth = 10f;
 }

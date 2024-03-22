@@ -18,3 +18,4 @@ MonoBehaviour:
   moveSpeed: 5
   camDistance: 7
   camYOffset: 2
+  maxHealth: 15

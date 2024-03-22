@@ -26,6 +26,10 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
+#if UNITY_EDITOR
+        Application.targetFrameRate = 30;
+#endif
+
         // sort the scriptable objects by cost
         sharkScriptableObjects.Sort((a, b) => a.cost.CompareTo(b.cost));
 
@@ -75,6 +79,11 @@ public class GameManager : MonoBehaviour
             if (!gameData.levelsOwned.Contains(s))
                 gameData.levelsOwned.Add(s);
             SaveSystem.SaveGameData(gameData);
+        };
+
+        SignalBus.OnPlayerDeath += () =>
+        {
+            gameData.playerDeaths++;
         };
 
     }
@@ -164,6 +173,7 @@ public class GameData
     public string currentShark = "DefaultShark";
     public string selectedLevel = "DefaultLevel";
     public int coinsOwned = 100;
+    public long playerDeaths = 0;
 
     [SerializeField]
     public List<string> sharksOwned = new List<string>();

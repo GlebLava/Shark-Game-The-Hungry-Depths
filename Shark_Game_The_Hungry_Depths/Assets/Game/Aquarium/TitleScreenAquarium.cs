@@ -9,7 +9,6 @@ public class TitleScreenAquarium : MonoBehaviour
     private void Awake()
     {
         SignalBus.OnNewSharkBought += NewSharkBought;
-        Application.targetFrameRate = 30;
     }
 
     private void Start()

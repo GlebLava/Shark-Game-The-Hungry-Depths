@@ -10,9 +10,26 @@ public class PlayerController : MonoBehaviour
     public Transform centerOfWorld;
     public Rigidbody rb;
     private float yVelocity = 0f;
-    
+
+    [HideInInspector]
+    public float currentHealth;
+    [HideInInspector]
+    public SharkSO sharkScriptableObject;
+
     private float camStartingXAngle;
-    SharkSO sharkScriptableObject;
+
+    private Vector3 playerDiedPos;
+
+    private void Awake()
+    {
+        SignalBus.OnPlayerDeathRevive += OnPlayerRevive;
+    }
+
+    private void OnDestroy()
+    {
+        SignalBus.OnPlayerDeathRevive -= OnPlayerRevive;
+    }
+
 
     public void Setup(Camera cam, GameObject cameraRotator, Transform centerOfWorld, Rigidbody rigidbody, SharkSO sharkScriptableObject)
     {
@@ -26,15 +43,27 @@ public class PlayerController : MonoBehaviour
         this.rb = rigidbody;
 
         camStartingXAngle = cam.transform.rotation.eulerAngles.x;
+
+        currentHealth = sharkScriptableObject.maxHealth;
     }
 
     void FixedUpdate()
     {
-        HandleYVelocity();
+        HandleHealth();
 
+        if (currentHealth > 0)
+        {
+            HandleYVelocity();
+            HandleSwimming();
+            RotateCam(); 
+        }
+    }
+
+    void HandleSwimming()
+    {
         Vector2 swimDir = InputManager.instance.swimDir;
         Vector3 velocity = Vector3.zero;
-        
+
         Vector3 forward = transform.position - cam.transform.position;
         forward.y = 0;
         Vector3 right = -Vector3.Cross(forward, Vector3.up);
@@ -45,10 +74,7 @@ public class PlayerController : MonoBehaviour
         velocity.y = yVelocity;
         transform.LookAt(transform.position + velocity);
         rb.velocity = velocity;
-      
-        RotateCam();
     }
-
     void HandleYVelocity()
     {
         if (InputManager.instance.pressingSwimUp)
@@ -61,7 +87,6 @@ public class PlayerController : MonoBehaviour
             yVelocity -= 9f * Time.fixedDeltaTime;
         }
     }
-
     void RotateCam()
     {
         // Convert the angle to degrees
@@ -95,6 +120,36 @@ public class PlayerController : MonoBehaviour
         Vector3 camRot = cam.transform.rotation.eulerAngles;
         camRot.x = camStartingXAngle;
         cam.transform.rotation = Quaternion.Euler(camRot);
+    }
+    void HandleHealth()
+    {
+        if (currentHealth > 0)
+        {
+            currentHealth -= Time.fixedDeltaTime * 4.1f;
+            if (currentHealth < 0.001f)
+            {
+                currentHealth = 0;
+                OnPlayerDied();
+                SignalBus.OnPlayerDeathInvoke();
+            }
+        }
+    }
+    void OnPlayerDied()
+    {
+        playerDiedPos = transform.position;
+
+        if (rb.velocity.y > 0)
+        {
+            rb.velocity = new Vector3(rb.velocity.x,  -5, rb.velocity.z);
+        }
+    }
+
+    void OnPlayerRevive()
+    {
+        transform.position = playerDiedPos;
+        rb.velocity = Vector3.zero;
+        yVelocity = 0;
+        currentHealth = sharkScriptableObject.maxHealth;
     }
 
     float AngleBetweenPoints(Vector2 center, Vector2 other)

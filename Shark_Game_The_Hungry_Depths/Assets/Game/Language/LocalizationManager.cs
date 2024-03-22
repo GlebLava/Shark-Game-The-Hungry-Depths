@@ -80,6 +80,11 @@ public class LocalizationManager : MonoBehaviour
 
         // Pause Menu
         AddID("Return to main menu", "Return to main menu", "Zurück zum Hauptmenü");
+
+        // Death Screen
+        AddID("Game Over", "Game Over", "Game Over");
+        AddID("Continue", "Continue", "Fortfahren");
+        AddID("Revive", "Revive", "Wiederbeleben");
     }
 
     private void AddID(string id, string textEnglish, string textGerman)

@@ -76,6 +76,22 @@ public static class SignalBus
         OnLevelFinishedReturnToMainMenu?.Invoke();
     }
 
+    public static event Notify OnPlayerDeath;
+    public static void OnPlayerDeathInvoke()
+    {
+        OnPlayerDeath?.Invoke();
+    }
 
+    public static event Notify OnPlayerDeathContinue;
+    public static void OnPlayerDeathContinueInvoke()
+    {
+        OnPlayerDeathContinue?.Invoke();
+    }
+
+    public static event Notify OnPlayerDeathRevive;
+    public static void OnPlayerDeathReviveInvoke()
+    {
+        OnPlayerDeathRevive?.Invoke();
+    }
 
 }

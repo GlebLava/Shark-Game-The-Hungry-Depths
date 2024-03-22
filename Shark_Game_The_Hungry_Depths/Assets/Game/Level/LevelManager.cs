@@ -21,6 +21,12 @@ public class LevelManager : MonoBehaviour
 
     [HideInInspector]
     public GameObject player;
+    [HideInInspector]
+    public PlayerController playerController;
+    [HideInInspector]
+    public int coinsCollectedThisRun = 0;
+
+
 
     private void Awake()
     {
@@ -49,7 +55,6 @@ public class LevelManager : MonoBehaviour
 
         SignalBus.OnPauseGame += PauseGame;
         SignalBus.OnUnpauseGame += UnpauseGame;
-
     }
 
     private void OnDestroy()
@@ -69,7 +74,7 @@ public class LevelManager : MonoBehaviour
         player.transform.SetParent(transform); // So it gets added to the right scene
 
         player.transform.position = spawnPoint.transform.position;
-        var playerController = player.AddComponent<PlayerController>();
+        playerController = player.AddComponent<PlayerController>();
         var rb = player.AddComponent<Rigidbody>();
         player.AddComponent<SphereCollider>().radius = 0.5f;
 
@@ -87,5 +92,4 @@ public class LevelManager : MonoBehaviour
     {
         Time.timeScale = 1;
     }
-
 }
