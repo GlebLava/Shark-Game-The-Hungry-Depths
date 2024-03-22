@@ -14,7 +14,7 @@ public class UIManager : MonoBehaviour
     public Slider velocitySlider;
     public Slider centerSlider;
 
-    public BoidManager boidManager;
+    public BoidManagerPrototype boidManager;
 
     private void Start()
     {

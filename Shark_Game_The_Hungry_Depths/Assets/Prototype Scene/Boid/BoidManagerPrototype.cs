@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoidManager : MonoBehaviour
+public class BoidManagerPrototype : MonoBehaviour
 {
     public GameObject boidPrefab;
 

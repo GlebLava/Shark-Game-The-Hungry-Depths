@@ -84,7 +84,7 @@ public class PlayerController : MonoBehaviour
 
         if (yVelocity > -20)
         {
-            yVelocity -= 9f * Time.fixedDeltaTime;
+            yVelocity -= 9f * 2 * Time.fixedDeltaTime;
         }
     }
     void RotateCam()
@@ -125,7 +125,7 @@ public class PlayerController : MonoBehaviour
     {
         if (currentHealth > 0)
         {
-            currentHealth -= Time.fixedDeltaTime * 4.1f;
+            currentHealth -= Time.fixedDeltaTime * 0.1f;
             if (currentHealth < 0.001f)
             {
                 currentHealth = 0;

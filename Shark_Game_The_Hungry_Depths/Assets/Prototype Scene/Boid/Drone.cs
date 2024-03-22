@@ -11,7 +11,7 @@ public class Drone : MonoBehaviour
     public Transform centerOfWorld;
     public Camera cam;
 
-    public BoidManager boidManager;
+    public BoidManagerPrototype boidManager;
 
     public RectTransform touchArea;
 

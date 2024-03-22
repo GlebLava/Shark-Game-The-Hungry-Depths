@@ -89,7 +89,7 @@ public class LocalizationManager : MonoBehaviour
         // After Game Screen
         AddID("Coins collected:", "Coins collected:", "Münzen eingesammelt:");
         AddID("Coins total:", "Coins total:", "Münzen gesamt:");
-        AddID("Back to main menu", "Back to main menu", "Zurück zum Hauptmenü");
+        //AddID("Return to main menu", "Return to main menu", "Zurück zum Hauptmenü"); ALREADY PRESENT
     }
 
     private void AddID(string id, string textEnglish, string textGerman)
