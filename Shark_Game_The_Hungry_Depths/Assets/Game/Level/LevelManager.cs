@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -72,9 +73,19 @@ public class LevelManager : MonoBehaviour
 
     private IEnumerator LoadTheLevelCo()
     {
+
+
+        yield return null;
+        List<Collider> colliders = Physics.OverlapSphere(aquariumBuilder.transform.position, 1000000).ToList();
+        colliders.RemoveAll((c) => aquariumBuilder.boundaryColliders.Contains(c));
+        yield return null;
+
         SpawnPlayer();
+
+        // TODO boids at once and framecalculation to be adjusted on options
+        swarmBoidsManager.Setup(500, 1, boidsSpawnPoints, aquariumBuilder, colliders);
+
         SignalBus.OnLevelFinishedLoadingInvoke();
-        swarmBoidsManager.Setup(1000, boidsSpawnPoints, aquariumBuilder);
         yield break;
     }
 

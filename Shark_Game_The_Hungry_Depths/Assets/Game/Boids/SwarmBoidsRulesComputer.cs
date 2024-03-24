@@ -21,19 +21,26 @@ public class SwarmBoidsRulesComputer : MonoBehaviour
     private NativeArray<int> boidFactionIndex; // holds the index into boidFactionDatas for each boid
     private NativeArray<BoidFactionData> boidFactionDatas; // hold data about the faction
 
+    private NativeArray<Vector3> colliderAvoidVelocities; // hold data about the faction
+
 
     JobHandle currentJob;
 
-    public void Init(GameObject[] boids, NativeArray<int> boidFactionIndex, NativeArray<BoidFactionData> boidFactionDatas)
+    public List<Collider> colliders;
+
+    public void Init(GameObject[] boids, NativeArray<int> boidFactionIndex, NativeArray<BoidFactionData> boidFactionDatas, List<Collider> colliders)
     {
         this.boids = boids;
         this.boidFactionIndex = boidFactionIndex;
         this.boidFactionDatas = boidFactionDatas;
+        this.colliders = colliders;
 
         doubleBuffer = new Holder[2];
 
 
         // Init arrays
+        colliderAvoidVelocities = new NativeArray<Vector3>(boids.Length, Allocator.Persistent);
+
         doubleBuffer[0].positions = new NativeArray<Vector3>(boids.Length, Allocator.Persistent);
         doubleBuffer[1].positions = new NativeArray<Vector3>(boids.Length, Allocator.Persistent);
 
@@ -50,11 +57,12 @@ public class SwarmBoidsRulesComputer : MonoBehaviour
         }
     }
 
-    public void CalculateRules(Bounds bounds, Vector3 playerPosition)
+    public void CalculateRules(Bounds bounds, Vector3 playerPosition, int skippedFixedUpdates)
     {
+        CalculateColliderAvoidVelocities();
+
         int frontBuffer = currentDoubleBufferIndex;
         int backBuffer = (currentDoubleBufferIndex + 1) % 2;
-
 
         var calculateRulesJob = new CalculateRulesJob
         {
@@ -67,8 +75,10 @@ public class SwarmBoidsRulesComputer : MonoBehaviour
             boidFactionDatas = boidFactionDatas,
             boidFactionIndex = boidFactionIndex,
 
+            colliderAvoidVelocities = colliderAvoidVelocities,
+
             bounds = bounds,
-            deltaTime = Time.fixedDeltaTime,
+            deltaTime = Time.fixedDeltaTime * skippedFixedUpdates,
             playerPosition = playerPosition
         };
 
@@ -102,8 +112,39 @@ public class SwarmBoidsRulesComputer : MonoBehaviour
         doubleBuffer[0].velocities.Dispose();
         doubleBuffer[1].velocities.Dispose();
 
+        colliderAvoidVelocities.Dispose();
+
         boidFactionDatas.Dispose();
         boidFactionIndex.Dispose();
+    }
+
+    private void CalculateColliderAvoidVelocities()
+    {
+        NativeArray<Vector3> positions = GetPositions();
+
+        for (int i = 0; i < boids.Length; i++)
+        {
+            colliderAvoidVelocities[i] = Vector3.zero;
+            foreach (Collider coll in colliders)
+            {
+                // We need to this because in case of a cube
+                // the bounds are exactly the cube
+                // if we then check if the boid is in the bounds its already to late
+                Bounds collBounds = coll.bounds;
+                collBounds.Expand(1.5f);
+
+                if (!collBounds.Contains(positions[i])) continue;
+
+
+                Vector3 closestPoint = coll.ClosestPoint(positions[i]);
+                Vector3 dir = positions[i] - closestPoint;
+                float distSquared = Vector3.Dot(dir, dir);
+
+                if (distSquared > 1f) continue;
+
+                colliderAvoidVelocities[i] += dir;
+            }
+        }
     }
 
 
@@ -124,7 +165,8 @@ public class SwarmBoidsRulesComputer : MonoBehaviour
         public NativeArray<BoidFactionData> boidFactionDatas;
         [ReadOnly]
         public NativeArray<int> boidFactionIndex;
-
+        [ReadOnly]
+        public NativeArray<Vector3> colliderAvoidVelocities;
 
 
         public Bounds bounds;
@@ -137,6 +179,7 @@ public class SwarmBoidsRulesComputer : MonoBehaviour
 
             Vector3 accelaration = Vector3.zero;
             accelaration += SteerTowards(GetBorderAvoidVelocity(i), i) * 10f;
+            accelaration += SteerTowards(colliderAvoidVelocities[i], i) * factionData.collidersAvoidanceWeight;
             accelaration += SteerTowards(GetPlayerAvoidVelocity(i, factionData), i) * factionData.playerAvoidanceWeight;
 
             accelaration += SteerTowards(GetBoidsAvoidVelocity(i, factionData), i) * factionData.boidsAvoidanceWeight;

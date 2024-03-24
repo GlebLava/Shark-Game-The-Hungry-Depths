@@ -16,15 +16,12 @@ MonoBehaviour:
     type: 3}
   maxSpeed: 7
   maxSteerForce: 1
-  radiusColliders: 1.5
   radiusPlayerDetection: 3
-  radiusBoidsAvoidanceInFaction: 2.5
-  radiusBoidsAvoidanceOutFaction: 4
+  radiusBoidsAvoidance: 2
   radiusVelocityMatching: 8
   radiusCentring: 6
-  collidersAvoidanceWeight: 7
+  collidersAvoidanceWeight: 20
   playerAvoidanceWeight: 5
-  boidsAvoidanceWeightInFaction: 1
-  boidsAvoidanceWeightOutFaction: 2
+  boidsAvoidanceWeight: 1.2
   velocityMatchingWeight: 1
   flockCenteringWeight: 1

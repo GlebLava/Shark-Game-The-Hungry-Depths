@@ -16,9 +16,12 @@ public class SwarmBoidsManager : MonoBehaviour
     NativeArray<int> boidFactionIndex;
     NativeArray<BoidFactionData> boidFactionDatas;
 
+    int framesUntilRulesCalculate = 1;
+    int framesCounter = 0;
 
-    public void Setup(int maxBoidsAtOnce, List<Transform> possibleSpawnPoints, AquariumBuilder aquariumBuilder)
+    public void Setup(int maxBoidsAtOnce, int framesUntilRulesCalculate, List<Transform> possibleSpawnPoints, AquariumBuilder aquariumBuilder, List<Collider> colliders)
     {
+        this.framesUntilRulesCalculate = framesUntilRulesCalculate;
         this.aquariumBuilder = aquariumBuilder;
         boids = new GameObject[maxBoidsAtOnce];
 
@@ -63,16 +66,15 @@ public class SwarmBoidsManager : MonoBehaviour
                 {
                     boidFactionIndex[i] = j;
                     boids[i] = Instantiate(boidFactions[j].boidFaction.boidPrefab, transform);
-                    boids[i].transform.position = possibleSpawnPoints[0].transform.position;
+                    boids[i].transform.position = possibleSpawnPoints[Random.Range(0, possibleSpawnPoints.Count)].transform.position;
 
                     break;
                 }
             }
         }
 
-
-        swarmBoidsRulesComputer.Init(boids, boidFactionIndex, boidFactionDatas);
-        swarmBoidsRulesComputer.CalculateRules(aquariumBuilder.boundsCached, LevelManager.instance.player.transform.position);
+        swarmBoidsRulesComputer.Init(boids, boidFactionIndex, boidFactionDatas, colliders);
+        swarmBoidsRulesComputer.CalculateRules(aquariumBuilder.boundsCached, LevelManager.instance.player.transform.position, framesUntilRulesCalculate);
         start = true;
     }
 
@@ -83,6 +85,7 @@ public class SwarmBoidsManager : MonoBehaviour
 
         swarmBoidsRulesComputer.FinishCalculateRules();
 
+
         NativeArray<Vector3> positions = swarmBoidsRulesComputer.GetPositions();
         NativeArray<Vector3> velocities = swarmBoidsRulesComputer.GetVelocities();
 
@@ -92,7 +95,12 @@ public class SwarmBoidsManager : MonoBehaviour
             boids[i].transform.LookAt(positions[i] + velocities[i]);
         }
 
-        swarmBoidsRulesComputer.CalculateRules(aquariumBuilder.boundsCached, LevelManager.instance.player.transform.position);
+
+        if (framesCounter % framesUntilRulesCalculate == 0)
+        {
+            swarmBoidsRulesComputer.CalculateRules(aquariumBuilder.boundsCached, LevelManager.instance.player.transform.position, framesUntilRulesCalculate);
+        }
+        framesCounter++;
     }
 
 

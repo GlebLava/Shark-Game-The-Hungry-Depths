@@ -20,7 +20,7 @@ MonoBehaviour:
   radiusBoidsAvoidance: 2
   radiusVelocityMatching: 3
   radiusCentring: 4.5
-  collidersAvoidanceWeight: 7
+  collidersAvoidanceWeight: 20
   playerAvoidanceWeight: 10
   boidsAvoidanceWeight: 1.2
   velocityMatchingWeight: 1.6

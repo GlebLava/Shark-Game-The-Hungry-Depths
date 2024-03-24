@@ -10,8 +10,11 @@ public class AquariumBuilder : MonoBehaviour
     public Vector3 cubeBoundaries;
     public Bounds boundsCached;
 
+    public List<Collider> boundaryColliders;
+
     private void Start()
     {
+        boundaryColliders = new List<Collider>();
         invisCube.GetComponent<MeshRenderer>().enabled = true;
         SpawnBoundaries();
         invisCube.GetComponent<MeshRenderer>().enabled = false;
@@ -32,13 +35,12 @@ public class AquariumBuilder : MonoBehaviour
         Bounds bounds = GetWorldBounds(invisCube);
 
         // Spawn box colliders at each face of the cube
-        SpawnBoxCollider(bounds.center + new Vector3(bounds.extents.x, 0f, 0f), new Vector3(0.1f, bounds.size.y, bounds.size.z)); // Right
-        SpawnBoxCollider(bounds.center + new Vector3(-bounds.extents.x, 0f, 0f), new Vector3(0.1f, bounds.size.y, bounds.size.z)); // Left
-        SpawnBoxCollider(bounds.center + new Vector3(0f, bounds.extents.y, 0f), new Vector3(bounds.size.x, 0.1f, bounds.size.z)); // Top
-        SpawnBoxCollider(bounds.center + new Vector3(0f, -bounds.extents.y, 0f), new Vector3(bounds.size.x, 0.1f, bounds.size.z)); // Bottom
-        SpawnBoxCollider(bounds.center + new Vector3(0f, 0f, bounds.extents.z), new Vector3(bounds.size.x, bounds.size.y, 0.1f)); // Front
-        SpawnBoxCollider(bounds.center + new Vector3(0f, 0f, -bounds.extents.z), new Vector3(bounds.size.x, bounds.size.y, 0.1f)); // Back
-
+        boundaryColliders.Add(SpawnBoxCollider(bounds.center + new Vector3(bounds.extents.x, 0f, 0f), new Vector3(0.1f, bounds.size.y, bounds.size.z))); // Right
+        boundaryColliders.Add(SpawnBoxCollider(bounds.center + new Vector3(-bounds.extents.x, 0f, 0f), new Vector3(0.1f, bounds.size.y, bounds.size.z))); // Left
+        boundaryColliders.Add(SpawnBoxCollider(bounds.center + new Vector3(0f, bounds.extents.y, 0f), new Vector3(bounds.size.x, 0.1f, bounds.size.z))); // Top
+        boundaryColliders.Add(SpawnBoxCollider(bounds.center + new Vector3(0f, -bounds.extents.y, 0f), new Vector3(bounds.size.x, 0.1f, bounds.size.z))); // Bottom
+        boundaryColliders.Add(SpawnBoxCollider(bounds.center + new Vector3(0f, 0f, bounds.extents.z), new Vector3(bounds.size.x, bounds.size.y, 0.1f))); // Front
+        boundaryColliders.Add(SpawnBoxCollider(bounds.center + new Vector3(0f, 0f, -bounds.extents.z), new Vector3(bounds.size.x, bounds.size.y, 0.1f))); // Back
 
         SpawnCubeEdge(bounds.center + new Vector3(bounds.extents.x, 0f, bounds.extents.z), new Vector3(0.1f, bounds.size.y, 0.1f));
         SpawnCubeEdge(bounds.center + new Vector3(-bounds.extents.x, 0f, -bounds.extents.z), new Vector3(0.1f, bounds.size.y, 0.1f));
