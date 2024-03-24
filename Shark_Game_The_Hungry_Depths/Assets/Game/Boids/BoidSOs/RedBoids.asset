@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7875c8dad2f4454191c79f446bb515a, type: 3}
+  m_Name: RedBoids
+  m_EditorClassIdentifier: 
+  boidPrefab: {fileID: 471700252485088436, guid: 28db29df3b40bdd4fb26548f87dfbd89,
+    type: 3}
+  maxSpeed: 7
+  maxSteerForce: 1
+  radiusColliders: 1.5
+  radiusPlayerDetection: 3
+  radiusBoidsAvoidanceInFaction: 2.5
+  radiusBoidsAvoidanceOutFaction: 4
+  radiusVelocityMatching: 8
+  radiusCentring: 6
+  collidersAvoidanceWeight: 7
+  playerAvoidanceWeight: 5
+  boidsAvoidanceWeightInFaction: 1
+  boidsAvoidanceWeightOutFaction: 2
+  velocityMatchingWeight: 1
+  flockCenteringWeight: 1

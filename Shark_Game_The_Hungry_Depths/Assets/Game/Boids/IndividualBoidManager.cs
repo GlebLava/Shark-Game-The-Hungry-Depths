@@ -10,25 +10,26 @@ using UnityEngine;
 /// </summary>
 public class IndividualBoidManager : MonoBehaviour
 {
-
     readonly int maxSpeed = 5;
     Vector3 velocity;
+    Vector3 randomVelocity;
 
     private void Awake()
     {
         velocity = Random.insideUnitSphere;
+        StartCoroutine(PickRandomVelocityCo());
     }
 
     private void FixedUpdate()
     {
         Vector3 acceleration = Vector3.zero;
         acceleration += SteerTowards(GetAvoidEverythingVelocity()) * 4;
-        acceleration += SteerTowards(Random.insideUnitSphere);
+        acceleration += SteerTowards(randomVelocity);
 
         velocity += acceleration * Time.fixedDeltaTime;
         float speed = velocity.magnitude;
         Vector3 dir = speed == 0 ? Vector3.zero : velocity / speed;
-        speed = Mathf.Clamp(speed, 0.1f, maxSpeed);
+        speed = Mathf.Clamp(speed, 0.1f, maxSpeed); 
         velocity = dir * speed;
 
         transform.position += velocity * Time.fixedDeltaTime;
@@ -56,5 +57,13 @@ public class IndividualBoidManager : MonoBehaviour
         return Vector3.ClampMagnitude(v, 0.2f);
     }
 
+    IEnumerator PickRandomVelocityCo()
+    {
+        while (true)
+        {
+            randomVelocity = Random.insideUnitSphere;
+            yield return new WaitForSeconds(Random.Range(.5f, 3f));
+        }
+    }
 
 }

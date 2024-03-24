@@ -18,6 +18,9 @@ public class LevelManager : MonoBehaviour
     public AquariumBuilder aquariumBuilder;
     public GameObject cameraRotator;
     public GameObject spawnPoint;
+    public List<Transform> boidsSpawnPoints;
+    public SwarmBoidsManager swarmBoidsManager;
+
 
     [HideInInspector]
     public GameObject player;
@@ -46,12 +49,14 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        LoadTheLevel();
         // This needs to happen in start.
         // It cannot happen in awake because
         // awake still counts towards loading of the scene
         // when using LoadSceneAsync()
-        SignalBus.OnLevelFinishedLoadingInvoke();
+
+        // Ignore the message above since the coroutine will 
+        // be to slow to happen in awake anyways
+        StartCoroutine(LoadTheLevelCo());
 
         SignalBus.OnPauseGame += PauseGame;
         SignalBus.OnUnpauseGame += UnpauseGame;
@@ -65,9 +70,12 @@ public class LevelManager : MonoBehaviour
         SignalBus.OnPlayerDeathContinue -= OnPlayerDeathContinue;
     }
 
-    private void LoadTheLevel()
+    private IEnumerator LoadTheLevelCo()
     {
         SpawnPlayer();
+        SignalBus.OnLevelFinishedLoadingInvoke();
+        swarmBoidsManager.Setup(1000, boidsSpawnPoints, aquariumBuilder);
+        yield break;
     }
 
     private void SpawnPlayer()

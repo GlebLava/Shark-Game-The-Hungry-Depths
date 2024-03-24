@@ -27,13 +27,14 @@ public class GameManager : MonoBehaviour
         }
 
 #if UNITY_EDITOR
-        Application.targetFrameRate = 30;
+        //Application.targetFrameRate = 30;
 #endif
 
         // sort the scriptable objects by cost
         sharkScriptableObjects.Sort((a, b) => a.cost.CompareTo(b.cost));
 
         gameData = SaveSystem.LoadGameData();
+        gameData.Patch();
 
         SignalBus.OnSharkPlayerChosen += (s) =>
         {
@@ -225,6 +226,39 @@ public class GameData
         // Put all stuff here that a new player owns from the start
         sharksOwned.Add("DefaultShark");
         levelsOwned.Add("DefaultLevel");
+    }
+
+    public void Patch()
+    {
+        if (sharksOwned == null)
+        {
+            sharksOwned = new List<string>();
+            sharksOwned.Add("DefaultShark");
+        }
+
+        if (!sharksOwned.Contains("DefaultShark"))
+        {
+            sharksOwned.Add("DefaultShark");
+        }
+
+        if (currentShark == null || currentShark == "")
+            currentShark = "DefaultShark";
+
+
+        if (levelsOwned == null)
+        {
+            levelsOwned = new List<string>();
+            levelsOwned.Add("DefaultLevel");
+        }
+
+        if (levelsOwned.Contains("DefaultLevel"))
+        {
+            levelsOwned.Add("DefaultLevel");
+        }
+
+        if (selectedLevel == null || selectedLevel == "")
+            selectedLevel = "DefaultLevel";
+
     }
 }
 

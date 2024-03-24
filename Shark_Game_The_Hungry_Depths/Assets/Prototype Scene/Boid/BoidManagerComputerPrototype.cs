@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class BoidManagerComputer : MonoBehaviour
+public class BoidManagerComputerPrototype : MonoBehaviour
 {
     public ComputeShader csBoidRules;
 
