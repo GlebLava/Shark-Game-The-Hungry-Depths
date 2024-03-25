@@ -14,13 +14,17 @@ public class PlayerController : MonoBehaviour
     [HideInInspector]
     public float currentHealth;
     [HideInInspector]
+    public float currentFrenzy = 0;
+    [HideInInspector]
     public SharkSO sharkScriptableObject;
     [HideInInspector]
     Shark shark;
 
     private float camStartingXAngle;
     private Vector3 playerDiedPos;
-    
+    private FrenzyHandler frenzyHandler;
+
+    public bool InFrenzy() { return frenzyHandler != null && frenzyHandler.InFrenzy; }
 
     private void Awake()
     {
@@ -37,6 +41,7 @@ public class PlayerController : MonoBehaviour
     {
         this.sharkScriptableObject = sharkScriptableObject;
 
+        frenzyHandler = new FrenzyHandler(this, LevelManager.instance.mainCamera);
         shark = Instantiate(sharkScriptableObject.sharkModelPrefab, transform);
         
         this.cam = cam;
@@ -52,6 +57,7 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         HandleHealth();
+        frenzyHandler.HandleFrenzy();
 
         if (currentHealth > 0)
         {
@@ -72,7 +78,7 @@ public class PlayerController : MonoBehaviour
         Vector3 right = -Vector3.Cross(forward, Vector3.up);
         forward *= swimDir.y;
         right *= swimDir.x;
-        velocity += (forward + right).normalized * sharkScriptableObject.moveSpeed;
+        velocity += (forward + right).normalized * sharkScriptableObject.moveSpeed * frenzyHandler.MoveSpeedMultiplier;
 
         velocity.y = yVelocity;
         transform.LookAt(transform.position + velocity);
@@ -152,6 +158,7 @@ public class PlayerController : MonoBehaviour
         rb.velocity = Vector3.zero;
         yVelocity = 0;
         currentHealth = sharkScriptableObject.maxHealth;
+        currentFrenzy = 0;
     }
     float AngleBetweenPoints(Vector2 center, Vector2 other)
     {
@@ -169,7 +176,6 @@ public class PlayerController : MonoBehaviour
 
         return angleDeg;
     }
-
     void EatBoidsInRange()
     {
         for (int i = 0; i < LevelManager.instance.swarmBoidsManager.boids.Length; i++)
@@ -183,9 +189,24 @@ public class PlayerController : MonoBehaviour
             if (distSquared < shark.mouthCollider.radius)
             {
                 BoidFaction boidFaction = LevelManager.instance.swarmBoidsManager.KillBoid(i);
-                SignalBus.OnInGameCoinsCollectedInvoke(boidFaction.price);
+
+                int frenzyMultiplier = InFrenzy() ? 5 : 1;
+                SignalBus.OnInGameCoinsCollectedInvoke((int)(boidFaction.price * frenzyMultiplier * LevelManager.instance.coinsMultiplier));
+                AddHealth(boidFaction.price);
+                frenzyHandler.AddFrenzy(boidFaction.price * 0.034f);             
+                
+                AudioManager.instance.PlayOneShot("Plop");
             }
         }
-        
+    }
+
+    void AddHealth(float fishPrice)
+    {
+        currentHealth += fishPrice * 0.01f;
+        if (currentHealth > sharkScriptableObject.maxHealth)
+        {
+            currentHealth = sharkScriptableObject.maxHealth;
+        }
     }
 }
+

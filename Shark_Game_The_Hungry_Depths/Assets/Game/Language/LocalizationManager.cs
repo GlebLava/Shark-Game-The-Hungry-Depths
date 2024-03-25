@@ -96,6 +96,9 @@ public class LocalizationManager : MonoBehaviour
         AddID("Ok", "Ok", "Ok");
         AddID("Cancel", "Cancel", "Abbrechen");
         AddID("Popup.ReturnMainMenuText", "All progress made in this run will be lost, are you sure?", "Jeglicher Fortschritt in diesem Lauf wird verloren, bist du dir sicher?");
+
+        // In Game UI
+        AddID("Multiplier:", "Multiplier:", "Multiplizierer:");
     }
 
     private void AddID(string id, string textEnglish, string textGerman)

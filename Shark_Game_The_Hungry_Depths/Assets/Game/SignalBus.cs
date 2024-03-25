@@ -99,8 +99,18 @@ public static class SignalBus
     {
         OnInGameCoinsCollected?.Invoke(collected);
     }
-        
 
 
+    public static event Notify OnFrenzyStart;
+    public static void OnFrenzyStartInvoke()
+    {
+        OnFrenzyStart?.Invoke();
+    }
+
+    public static event Notify OnFrenzyEnd;
+    public static void OnFrenzyEndInvoke()
+    {
+        OnFrenzyEnd?.Invoke();
+    }
 
 }

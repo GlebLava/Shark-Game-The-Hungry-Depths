@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1255160439284340518}
   - component: {fileID: 9138121506338698464}
   - component: {fileID: 8948664644184343484}
+  - component: {fileID: 3768754348562218673}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -107,3 +108,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   popupOkCancelPrefab: {fileID: 3321279090422562456, guid: df5f11c5a112d3e4aade75680d4cbe70,
     type: 3}
+--- !u!114 &3768754348562218673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6775517863230292087}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52b6418f3eaf24e48874eb164747770c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volumeAll: 1
+  sounds:
+  - name: Plop
+    clip: {fileID: 8300000, guid: e1d7776012b638640b8ea9ba8eeff18b, type: 3}
+    volume: 0.58
+    pitch: 1.191
+    loop: 0
+    randomize: 0
+    sources: []
+  soundsCombined: []

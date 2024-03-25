@@ -374,6 +374,7 @@ MonoBehaviour:
     boidFaction: {fileID: 11400000, guid: 20458b2f975ffe849aa2a253e822a46d, type: 2}
   - totalAmountRatio: 2
     boidFaction: {fileID: 11400000, guid: 58de3585dcdb3a141a0555e226a847b0, type: 2}
+  boids: []
 --- !u!114 &428736663
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -993,8 +994,8 @@ Camera:
   m_GameObject: {fileID: 1795887612}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.028034896, g: 0.06849512, b: 0.13207549, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0

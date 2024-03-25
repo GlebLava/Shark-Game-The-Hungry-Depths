@@ -29,6 +29,8 @@ public class LevelManager : MonoBehaviour
     public PlayerController playerController;
     [HideInInspector]
     public int coinsCollectedThisRun = 0;
+    [HideInInspector]
+    public float coinsMultiplier = 1f;
 
 
 
@@ -83,7 +85,7 @@ public class LevelManager : MonoBehaviour
         SpawnPlayer();
 
         // TODO boids at once and framecalculation to be adjusted on options
-        swarmBoidsManager.Setup(500, 1, boidsSpawnPoints, aquariumBuilder, colliders);
+        swarmBoidsManager.Setup(1500, 1, boidsSpawnPoints, aquariumBuilder, colliders);
 
         SignalBus.OnLevelFinishedLoadingInvoke();
         yield break;
@@ -127,5 +129,10 @@ public class LevelManager : MonoBehaviour
     public void OnInGameGoldCollected(int collected)
     {
         coinsCollectedThisRun += collected;
+    }
+
+    private void Update()
+    {
+        coinsMultiplier += 0.11f * Time.deltaTime;
     }
 }
