@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3708906669595292823}
   - component: {fileID: 1255160439284340518}
   - component: {fileID: 9138121506338698464}
+  - component: {fileID: 8948664644184343484}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -61,6 +62,7 @@ MonoBehaviour:
     currentShark: 
     selectedLevel: DefaultLevel
     coinsOwned: 100
+    playerDeaths: 0
     sharksOwned: []
     gadgetsOwned: []
     levelsOwned:
@@ -91,3 +93,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60515740f0783dc469797cdf9e870dd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8948664644184343484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6775517863230292087}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4939d1b3a51a3f74ca40e1043f531bfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  popupOkCancelPrefab: {fileID: 3321279090422562456, guid: df5f11c5a112d3e4aade75680d4cbe70,
+    type: 3}

@@ -90,6 +90,12 @@ public class LocalizationManager : MonoBehaviour
         AddID("Coins collected:", "Coins collected:", "Münzen eingesammelt:");
         AddID("Coins total:", "Coins total:", "Münzen gesamt:");
         //AddID("Return to main menu", "Return to main menu", "Zurück zum Hauptmenü"); ALREADY PRESENT
+
+
+        // Popup
+        AddID("Ok", "Ok", "Ok");
+        AddID("Cancel", "Cancel", "Abbrechen");
+        AddID("Popup.ReturnMainMenuText", "All progress made in this run will be lost, are you sure?", "Jeglicher Fortschritt in diesem Lauf wird verloren, bist du dir sicher?");
     }
 
     private void AddID(string id, string textEnglish, string textGerman)

@@ -119,7 +119,7 @@ public class LevelManager : MonoBehaviour
     /// to pass all relevant data to the GameManager once the level is over (which 
     /// happens when the player decides to press continue after dying)
     /// </summary>
-    private void OnPlayerDeathContinue()
+    public void OnPlayerDeathContinue()
     {
         GameManager.instance.SwitchToAfterDeathScreen(coinsCollectedThisRun);
     }
