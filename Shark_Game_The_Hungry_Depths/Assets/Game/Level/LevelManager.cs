@@ -62,6 +62,7 @@ public class LevelManager : MonoBehaviour
         SignalBus.OnPauseGame += PauseGame;
         SignalBus.OnUnpauseGame += UnpauseGame;
         SignalBus.OnPlayerDeathContinue += OnPlayerDeathContinue;
+        SignalBus.OnInGameCoinsCollected += OnInGameGoldCollected;
     }
 
     private void OnDestroy()
@@ -69,12 +70,11 @@ public class LevelManager : MonoBehaviour
         SignalBus.OnPauseGame -= PauseGame;
         SignalBus.OnUnpauseGame -= UnpauseGame;
         SignalBus.OnPlayerDeathContinue -= OnPlayerDeathContinue;
+        SignalBus.OnInGameCoinsCollected -= OnInGameGoldCollected;
     }
 
     private IEnumerator LoadTheLevelCo()
     {
-
-
         yield return null;
         List<Collider> colliders = Physics.OverlapSphere(aquariumBuilder.transform.position, 1000000).ToList();
         colliders.RemoveAll((c) => aquariumBuilder.boundaryColliders.Contains(c));
@@ -122,5 +122,10 @@ public class LevelManager : MonoBehaviour
     public void OnPlayerDeathContinue()
     {
         GameManager.instance.SwitchToAfterDeathScreen(coinsCollectedThisRun);
+    }
+
+    public void OnInGameGoldCollected(int collected)
+    {
+        coinsCollectedThisRun += collected;
     }
 }

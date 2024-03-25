@@ -29,7 +29,7 @@ public class TitleScreenAquarium : MonoBehaviour
     private void NewSharkBought(string sharkName)
     {
         SharkSO sharkSO = GameManager.instance.sharkScriptableObjects.Find((s) => s.name == sharkName);
-        AddShark(sharkSO.sharkModelPrefab);
+        AddShark(sharkSO.sharkModelPrefab.gameObject);
     }
 
     private void SpawnAllOwnedSharks()
@@ -39,7 +39,7 @@ public class TitleScreenAquarium : MonoBehaviour
             SharkSO sharkSO = GameManager.instance.sharkScriptableObjects.Find((s) => s.name == sharkName);
             if (sharkSO == null) continue; // Could be because of rename or anything like that
 
-            AddShark(sharkSO.sharkModelPrefab);
+            AddShark(sharkSO.sharkModelPrefab.gameObject);
         }
     }
 

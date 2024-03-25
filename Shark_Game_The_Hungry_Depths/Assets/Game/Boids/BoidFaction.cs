@@ -7,6 +7,9 @@ public class BoidFaction : ScriptableObject
 {
     public GameObject boidPrefab;
 
+    public int price = 10;
+
+
     [Header("Speed and Steering")]
     public float maxSpeed = 7f;
     public float maxSteerForce = 1f;

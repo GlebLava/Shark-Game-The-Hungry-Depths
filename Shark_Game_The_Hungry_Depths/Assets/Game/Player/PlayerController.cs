@@ -15,10 +15,12 @@ public class PlayerController : MonoBehaviour
     public float currentHealth;
     [HideInInspector]
     public SharkSO sharkScriptableObject;
+    [HideInInspector]
+    Shark shark;
 
     private float camStartingXAngle;
-
     private Vector3 playerDiedPos;
+    
 
     private void Awake()
     {
@@ -35,7 +37,7 @@ public class PlayerController : MonoBehaviour
     {
         this.sharkScriptableObject = sharkScriptableObject;
 
-        Instantiate(sharkScriptableObject.sharkModelPrefab, transform);
+        shark = Instantiate(sharkScriptableObject.sharkModelPrefab, transform);
         
         this.cam = cam;
         this.cameraRotator = cameraRotator;
@@ -55,7 +57,8 @@ public class PlayerController : MonoBehaviour
         {
             HandleYVelocity();
             HandleSwimming();
-            RotateCam(); 
+            RotateCam();
+            EatBoidsInRange();
         }
     }
 
@@ -143,7 +146,6 @@ public class PlayerController : MonoBehaviour
             rb.velocity = new Vector3(rb.velocity.x,  -5, rb.velocity.z);
         }
     }
-
     void OnPlayerRevive()
     {
         transform.position = playerDiedPos;
@@ -151,7 +153,6 @@ public class PlayerController : MonoBehaviour
         yVelocity = 0;
         currentHealth = sharkScriptableObject.maxHealth;
     }
-
     float AngleBetweenPoints(Vector2 center, Vector2 other)
     {
         // Calculate the direction vector from center to the other point
@@ -169,4 +170,22 @@ public class PlayerController : MonoBehaviour
         return angleDeg;
     }
 
+    void EatBoidsInRange()
+    {
+        for (int i = 0; i < LevelManager.instance.swarmBoidsManager.boids.Length; i++)
+        {
+            GameObject boid = LevelManager.instance.swarmBoidsManager.boids[i];
+            if (!boid.activeSelf) continue;
+
+            Vector3 dir = shark.mouthCollider.transform.position - boid.transform.position;
+            float distSquared = Vector3.Dot(dir, dir);
+
+            if (distSquared < shark.mouthCollider.radius)
+            {
+                BoidFaction boidFaction = LevelManager.instance.swarmBoidsManager.KillBoid(i);
+                SignalBus.OnInGameCoinsCollectedInvoke(boidFaction.price);
+            }
+        }
+        
+    }
 }

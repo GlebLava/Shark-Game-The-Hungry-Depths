@@ -114,7 +114,7 @@ public class LevelSelect : MonoBehaviour
         }
 
         // Now we search for the lowest priced locked level and show the price there
-        LevelSelectItem nextUnlockableLevel = spawnedLevelSelectItems.Where((item) => item.locked).OrderByDescending((item) => item.levelSelectItemSO.levelPrice).Last();
+        LevelSelectItem nextUnlockableLevel = spawnedLevelSelectItems.Where((item) => item.locked).OrderByDescending((item) => item.levelSelectItemSO.levelPrice).LastOrDefault();
         if (nextUnlockableLevel != null) nextUnlockableLevel.ShowPrice();
     }
 }

@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77ea25f53c1ba2347a998f3fda08b4d1, type: 3}
   m_Name: DefaultShark
   m_EditorClassIdentifier: 
-  sharkModelPrefab: {fileID: 6542559346499421121, guid: 70ccedd07b55e0f478ac01a11c334802,
+  sharkModelPrefab: {fileID: 5881065904389062720, guid: 70ccedd07b55e0f478ac01a11c334802,
     type: 3}
   cost: 0
   moveSpeed: 7
   camDistance: 14
   camYOffset: 5
   maxHealth: 10
+  mouthEatRadius: 2

@@ -8,7 +8,8 @@ public class SwarmBoidsManager : MonoBehaviour
     public SwarmBoidsRulesComputer swarmBoidsRulesComputer;
     public List<BoidFactionPart> boidFactions;
 
-    private GameObject[] boids;
+    [HideInInspector]
+    public GameObject[] boids;
     private AquariumBuilder aquariumBuilder;
 
     private bool start = false;
@@ -19,12 +20,18 @@ public class SwarmBoidsManager : MonoBehaviour
     int framesUntilRulesCalculate = 1;
     int framesCounter = 0;
 
+    List<Transform> possibleSpawnPoints;
+    Queue<int> respawnQueue;
+
+
     public void Setup(int maxBoidsAtOnce, int framesUntilRulesCalculate, List<Transform> possibleSpawnPoints, AquariumBuilder aquariumBuilder, List<Collider> colliders)
     {
         this.framesUntilRulesCalculate = framesUntilRulesCalculate;
         this.aquariumBuilder = aquariumBuilder;
-        boids = new GameObject[maxBoidsAtOnce];
+        this.possibleSpawnPoints = possibleSpawnPoints;
 
+        boids = new GameObject[maxBoidsAtOnce];
+        respawnQueue = new Queue<int>(maxBoidsAtOnce);
 
         // Init boidfactionIndex and datas
         boidFactionDatas = new NativeArray<BoidFactionData>(boidFactions.Count, Allocator.Persistent);
@@ -83,7 +90,12 @@ public class SwarmBoidsManager : MonoBehaviour
         if (!start)
             return;
 
+        bool calculateThisFrame = framesCounter % framesUntilRulesCalculate == 0;
+
         swarmBoidsRulesComputer.FinishCalculateRules();
+
+        if (calculateThisFrame)
+            RespawnBoids();
 
 
         NativeArray<Vector3> positions = swarmBoidsRulesComputer.GetPositions();
@@ -96,11 +108,43 @@ public class SwarmBoidsManager : MonoBehaviour
         }
 
 
-        if (framesCounter % framesUntilRulesCalculate == 0)
-        {
+        if (calculateThisFrame)
             swarmBoidsRulesComputer.CalculateRules(aquariumBuilder.boundsCached, LevelManager.instance.player.transform.position, framesUntilRulesCalculate);
-        }
+        
         framesCounter++;
+    }
+
+    public BoidFaction KillBoid(int boid)
+    {
+        respawnQueue.Enqueue(boid);
+        boids[boid].SetActive(false);
+        return boidFactions[boidFactionIndex[boid]].boidFaction;
+    }
+
+    private void RespawnBoids()
+    {
+        Transform furthestSpawnPoint = possibleSpawnPoints[0];
+        Vector3 dir = LevelManager.instance.player.transform.position - furthestSpawnPoint.position;
+        float distSquared = Vector3.Dot(dir, dir);
+        for (int i = 1; i < possibleSpawnPoints.Count; i++)
+        {
+            dir = LevelManager.instance.player.transform.position - possibleSpawnPoints[i].position;
+            float thisDistSquared = Vector3.Dot(dir, dir);
+            if (thisDistSquared > distSquared)
+            {
+                furthestSpawnPoint = possibleSpawnPoints[i];
+                distSquared = thisDistSquared;
+            }
+        }
+
+
+        NativeArray<Vector3> positions = swarmBoidsRulesComputer.GetPositions();
+        while (respawnQueue.Count > 0)
+        {
+            int boid = respawnQueue.Dequeue();
+            positions[boid] = furthestSpawnPoint.position;
+            boids[boid].SetActive(true);
+        }
     }
 
 

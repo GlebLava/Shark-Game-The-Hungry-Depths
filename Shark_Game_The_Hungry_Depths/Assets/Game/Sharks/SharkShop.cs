@@ -35,7 +35,7 @@ public class SharkShop : MonoBehaviour
             var shark = Instantiate(GameManager.instance.sharkScriptableObjects[i].sharkModelPrefab, sharksHolder.transform);
             shark.transform.position = new Vector3(0, i * DISTANCE_BETWEEN_SHARKS, 0);
             shark.transform.rotation = Quaternion.Euler(0, 90, 0);
-            spawnedSharkDisplays.Add(shark);
+            spawnedSharkDisplays.Add(shark.gameObject);
 
             if (GameManager.instance.gameData.currentShark == GameManager.instance.sharkScriptableObjects[i].name)
             {

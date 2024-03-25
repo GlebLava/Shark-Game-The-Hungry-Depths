@@ -94,4 +94,13 @@ public static class SignalBus
         OnPlayerDeathRevive?.Invoke();
     }
 
+    public static event NotifyInt OnInGameCoinsCollected;
+    public static void OnInGameCoinsCollectedInvoke(int collected)
+    {
+        OnInGameCoinsCollected?.Invoke(collected);
+    }
+        
+
+
+
 }
