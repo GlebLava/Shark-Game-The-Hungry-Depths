@@ -87,6 +87,12 @@ public class GameManager : MonoBehaviour
             gameData.playerDeaths++;
         };
 
+        SignalBus.OnGadgetSelected += (slot, gadget) =>
+        {
+            gameData.selectedGadgets[slot] = gadget;
+            SaveSystem.SaveGameData(gameData);
+        };
+
         SceneManager.activeSceneChanged += (s0, s1) => InvokeAtStart();
     }
 
@@ -214,6 +220,8 @@ public class GameData
     public int coinsOwned = 100;
     public long playerDeaths = 0;
 
+    public string[] selectedGadgets;
+
     [SerializeField]
     public List<string> sharksOwned = new List<string>();
     [SerializeField]
@@ -223,6 +231,8 @@ public class GameData
 
     public GameData()
     {
+        selectedGadgets = new string[3];
+
         // Put all stuff here that a new player owns from the start
         sharksOwned.Add("DefaultShark");
         levelsOwned.Add("DefaultLevel");
@@ -259,6 +269,10 @@ public class GameData
         if (selectedLevel == null || selectedLevel == "")
             selectedLevel = "DefaultLevel";
 
+        if (selectedGadgets == null || selectedGadgets.Length != 3)
+        {
+            selectedGadgets = new string[3];
+        }
     }
 }
 

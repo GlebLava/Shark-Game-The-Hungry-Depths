@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 77ea25f53c1ba2347a998f3fda08b4d1, type: 3}
-  m_Name: TestShark3
+  m_Name: TestAnimatedSharkBetter
   m_EditorClassIdentifier: 
-  sharkModelPrefab: {fileID: 90838973374955039, guid: 35f763e4666d4e346b560660fde186a0,
+  sharkModelPrefab: {fileID: 5190272062937169079, guid: 8d64db5bfce6f5f4db0ae18feb051e4c,
     type: 3}
-  cost: 50
-  moveSpeed: 10
-  camDistance: 14
-  camYOffset: 5
-  maxHealth: 15
-  maxFrenzy: 10
+  cost: 60
+  moveSpeed: 6
+  camDistance: 15
+  camYOffset: 6
+  maxHealth: 10
+  maxFrenzy: 12

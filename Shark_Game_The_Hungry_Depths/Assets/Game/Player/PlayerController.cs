@@ -81,7 +81,11 @@ public class PlayerController : MonoBehaviour
         velocity += (forward + right).normalized * sharkScriptableObject.moveSpeed * frenzyHandler.MoveSpeedMultiplier;
 
         velocity.y = yVelocity;
-        transform.LookAt(transform.position + velocity);
+
+        Quaternion targetRot = Quaternion.LookRotation(velocity);
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRot, 0.5f);
+
+        //transform.LookAt(transform.position + velocity);
         rb.velocity = velocity;
     }
     void HandleYVelocity()
@@ -199,6 +203,7 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
 
     void AddHealth(float fishPrice)
     {

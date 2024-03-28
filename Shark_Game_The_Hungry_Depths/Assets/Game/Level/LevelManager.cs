@@ -85,7 +85,7 @@ public class LevelManager : MonoBehaviour
         SpawnPlayer();
 
         // TODO boids at once and framecalculation to be adjusted on options
-        swarmBoidsManager.Setup(1500, 1, boidsSpawnPoints, aquariumBuilder, colliders);
+        swarmBoidsManager.Setup(1000, 1, boidsSpawnPoints, aquariumBuilder, colliders);
 
         SignalBus.OnLevelFinishedLoadingInvoke();
         yield break;

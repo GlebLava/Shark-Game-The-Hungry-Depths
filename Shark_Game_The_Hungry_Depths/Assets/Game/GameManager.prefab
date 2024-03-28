@@ -50,6 +50,7 @@ MonoBehaviour:
   sharkScriptableObjects:
   - {fileID: 11400000, guid: a12ed928f63c3a94e9c96b0ee9a6bd60, type: 2}
   - {fileID: 11400000, guid: c216d417dc0e54b4887add5330dd0fa2, type: 2}
+  - {fileID: 11400000, guid: e4c1bd0bf8e07c442b7ac0692abe2251, type: 2}
   gadgetScriptableObjects:
   - {fileID: 11400000, guid: a7453dc3c8b3da14c8befd6615b733d6, type: 2}
   - {fileID: 11400000, guid: d26930a5e74c65c41a979e53a675b122, type: 2}

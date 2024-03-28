@@ -5,4 +5,5 @@ using UnityEngine;
 public class Shark : MonoBehaviour
 {
     public SphereCollider mouthCollider;
+    public Transform headBone;
 }

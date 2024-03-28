@@ -7,6 +7,7 @@ public delegate void Notify();
 public delegate void NotifyInt(int i);
 public delegate void NotifyString(string s);
 public delegate void NotifyVector2(Vector2 v);
+public delegate void NotifyGadgetSelected(int slot, string gadget);
 public static class SignalBus
 {
     public static event NotifyString OnSharkPlayerChosen;
@@ -111,6 +112,12 @@ public static class SignalBus
     public static void OnFrenzyEndInvoke()
     {
         OnFrenzyEnd?.Invoke();
+    }
+
+    public static event NotifyGadgetSelected OnGadgetSelected;
+    public static void OnGadgetSelectedInvoke(int slot, string gadget)
+    {
+        OnGadgetSelected?.Invoke(slot, gadget);
     }
 
 }
